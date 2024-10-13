@@ -1,5 +1,5 @@
 # Use an OpenJDK image as the base
-FROM openjdk:latest
+FROM docker.io/library/openjdk
 
 # Set the working directory inside the container
 WORKDIR /app
