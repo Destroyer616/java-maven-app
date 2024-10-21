@@ -1,7 +1,7 @@
 def Increment() {
     echo "Increment the version..."
     sh 'mvn build-helper:parse-version versions:set \
-        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.newIncrementalversion} \
+        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
         version:commit'
     def match = readFile('pom.xml') =~ '<version>(.+)</version>'
     def version = match[0][1]
