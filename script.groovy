@@ -23,7 +23,7 @@ def buildImage() {
 
 def scanImage() {
     echo "scanning the image for critical vuln"
-    sh "trivy image --exit-code 1 --severity CRITICAL --format json -o trivy_report.json nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
+    sh "trivy image --exit-code 1 --severity CRITICAL --format template --template '@contrib/html.tpl' -o jenkins-maven-app:$IMAGE_NAME.html nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
 }
 
 def pushImage() {
@@ -45,18 +45,18 @@ def commitChange() {
 
 def trivyScanEmail() {
     emailext(
-                    subject: "Jenkins: Trivy Scan of nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME  - Critical Vulnerabilities Detected",
+                    subject: "Jenkins: Trivy Scan of nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME completed  - Critical Vulnerabilities Detected",
                     body: """\
                         Hi Team,
 
-                        The Trivy scan has detected critical vulnerabilities in the image.
+                        The Trivy scan has detected critical vulnerabilities in the "jenkins-maven-app:$IMAGE_NAME" image.
                         Please find the attached report for more details.
 
                         Regards,
                         deadpool
                     """,
-                    to: 'saikiran.reddy916@gmail.com',
-                    attachmentsPattern: 'trivy_report.json'
+                    to: 'sa-ki616@proton.me',
+                    attachmentsPattern: 'report.html'
                 )
 }
 
