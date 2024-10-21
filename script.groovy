@@ -1,8 +1,10 @@
 def Increment() {
     echo "Increment the version..."
-    sh 'mvn build-helper:parse-version versions:set \
-        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalversion} \
-        versions:commit'
+    sh """
+        mvn build-helper:parse-version versions:set \
+        -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} \
+        versions:commit
+    """
     def match = readFile('pom.xml') =~ '<version>(.+)</version>'
     def version = match[0][1]
     env.IMAGE_NAME = "$version-$BUILD_NUMBER"
