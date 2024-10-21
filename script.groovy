@@ -23,7 +23,7 @@ def buildImage() {
 
 def scanImage() {
     echo "scanning the image for critical vuln"
-    sh "trivy image --exit-code 1 --severity CRITICAL --format json -o trivy_report.json nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
+    sh "trivy image --exit-code 1 --severity CRITICAL --format table -o report.txt nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
 }
 
 def pushImage() {
