@@ -21,6 +21,11 @@ def buildImage() {
     }
 } 
 
+def scanImage() {
+    echo "scanning the image for critical vuln"
+    sh "trivy image --exit-code 1 --severity CRITICAL --format json -o trivy_report.json nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
+}
+
 def pushImage() {
     echo 'push the image to docker hosted repo..'
     sh "docker push nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
