@@ -16,14 +16,14 @@ def buildJar() {
 def buildImage() {
     echo "building the docker image..."
     withCredentials([usernamePassword(credentialsId: 'docker-hosted', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh "echo $PASS | docker login -u $USER --password-stdin nexus.nexus.orb.local:8082"
-        sh "docker build -t nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME ."
+        sh "echo ${PASS} | docker login -u ${USER} --password-stdin nexus.nexus.orb.local:8082"
+        sh "docker build -t nexus.nexus.orb.local:8082/jenkins-maven-app:${IMAGE_NAME} ."
     }
 } 
 
 def pushImage() {
     echo 'push the image to docker hosted repo..'
-    sh "docker push nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
+    sh "docker push nexus.nexus.orb.local:8082/jenkins-maven-app:${IMAGE_NAME}"
 } 
 
 return this
