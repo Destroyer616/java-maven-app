@@ -56,7 +56,7 @@ def trivyScanEmail() {
                         deadpool
                     """,
                     to: 'sa-ki616@proton.me',
-                    attachmentsPattern: 'trivy_report.json'
+                    attachmentsPattern: 'report.txt'
                 )
 }
 
