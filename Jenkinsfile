@@ -34,6 +34,14 @@ pipeline {
                 }
             }
         }
+        stage("scan image") {
+            steps {
+                script {
+                    echo "scanning image"
+                    gv.scanImage()
+                }
+            }
+        }
         stage("push image to repo") {
             steps {
                 script {
