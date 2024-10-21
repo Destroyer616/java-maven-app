@@ -31,4 +31,33 @@ def pushImage() {
     sh "docker push nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME"
 } 
 
+def commitChange() {
+    withCredentials([usernamePassword(credentialsId: 'github_credential', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+        sh 'git config user.email "saikiran.reddy916@gmail.com"'
+        sh "git config user.name $USER"
+
+        sh "git remote set-url origin https://${USER}:${PASS}@github.com/Destroyer616/java-maven-app"
+        sh 'git add .'
+        sh "git commit -m 'ci: version bump to version:$IMAGE_NAME"
+        sh 'git push origin main'
+    }
+}
+
+def trivyScanEmail() {
+    emailext(
+                    subject: "Jenkins: Trivy Scan of nexus.nexus.orb.local:8082/jenkins-maven-app:$IMAGE_NAME  - Critical Vulnerabilities Detected",
+                    body: """\
+                        Hi Team,
+
+                        The Trivy scan has detected critical vulnerabilities in the image.
+                        Please find the attached report for more details.
+
+                        Regards,
+                        deadpool
+                    """,
+                    to: 'saikiran.reddy916@gmail.com',
+                    attachmentsPattern: 'trivy_report.json'
+                )
+}
+
 return this

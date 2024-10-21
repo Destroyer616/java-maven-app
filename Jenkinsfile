@@ -50,5 +50,20 @@ pipeline {
                 }
             }
         }
-    }   
-}
+        stage("Commit change to github repo") {
+            steps {
+                script {
+                    echo "commit change to repo"
+                    gv.commitChange()
+                }
+            }
+        }
+    }  
+    post {
+        failure {
+            script {
+                gv.trivyScanEmail()
+            }
+        }
+    }
+} 
