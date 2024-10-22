@@ -10,5 +10,17 @@ pipeline {
               }
             }
           }
+        stage("quality gate check"){
+        steps {
+        timeout(time: 2, unit: 'MINUTES') {
+        waitForQualityGate abortPipeline: true
         }
       }
+}
+                stage("quality gate check"){
+        steps {
+        sh "echo 'continuing with pipeline'"
+      }
+}
+}
+}
