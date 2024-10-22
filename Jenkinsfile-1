@@ -1,0 +1,16 @@
+pipeline {
+  agent any
+  stages {
+    stage("mvn clean build") {
+      sh "mvn clean install"
+      sh "mvn clean package"
+      withCredentials([usernamePassword(credentialsId: 'docker-hosted', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+        sh "echo $PASS | docker login -u $USER --password-stdin nexus.nexus.orb.local:8082"
+        sh "docker build -t nexus.nexus.orb.local:8082/jenkins-maven-app-vuln-fix ."
+    }
+    }
+    stage("scan trivy image") {
+      sh "trivy image --exit-code 1 --severity CRITICAL --format table -o report.txt nexus.nexus.orb.local:8082/jenkins-maven-app-vuln-fix"
+    }
+  }
+}
