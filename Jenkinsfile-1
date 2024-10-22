@@ -1,4 +1,4 @@
-pipeline {
+ipeline {
   agent none
   stages {
     stage("build and scan") {
@@ -8,14 +8,14 @@ pipeline {
               }        
       }
     }
-    stage(quality gate check) {
+    stage("quality gate check") {
       steps {
         timeout(time: 2, unit: 'MINUTES') {
         waitForQualityGate abortPipeline: true
         }        
       }
     }
-    stage(post quality check) {
+    stage("post quality check") {
         steps {
         sh "echo 'continuing with pipeline'"
       }
