@@ -1,26 +1,24 @@
 pipeline {
-        agent none
-        stages {
-         
-          stage("build & SonarQube Scanner") {
-            agent any
-            steps {
+  agent none
+  stages {
+    stage("build and scan") {
+      steps {
               withSonarQubeEnv('Sonarqube_Scanner') {
                 sh 'mvn clean package sonar:sonar'
-              }
-            }
-          }
-        stage("quality gate check"){
-        steps {
+              }        
+      }
+    }
+    stage(quality gate check) {
+      steps {
         timeout(time: 2, unit: 'MINUTES') {
         waitForQualityGate abortPipeline: true
-        }
+        }        
       }
-}
-                stage("quality gate check"){
+    }
+    stage(post quality check) {
         steps {
         sh "echo 'continuing with pipeline'"
       }
-}
-}
+    }
+  }
 }
