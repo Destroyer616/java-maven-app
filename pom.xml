@@ -37,6 +37,7 @@
     </build>
 
     <dependencies>
+    <!-- fix vulnerabilities for CVE-2022-22965, CVE-2016-1000027 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
